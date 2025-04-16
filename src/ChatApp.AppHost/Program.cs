@@ -53,6 +53,7 @@ var agentModelDeployment = builder
 
 var backend = builder.AddProject<Projects.ChatApp_WebApi>("backend")
     .WithReference(vectorSearch)
+    .WaitFor(vectorSearch)
     .WithEnvironment("AzureDeployment", azureDeployment)
     .WithEnvironment("EmbeddingModelDeployment", embeddingModelDeployment)
     .WithEnvironment("AzureEndpoint", azureEndpoint)
@@ -68,6 +69,7 @@ var backend = builder.AddProject<Projects.ChatApp_WebApi>("backend")
 
 var frontend = builder.AddNpmApp("frontend", "../ChatApp.Client")
     .WithReference(backend)
+    .WaitFor(backend)
     .WithEnvironment("BROWSER", "none")
     .WithHttpEndpoint(env: "VITE_PORT")
     .WithExternalHttpEndpoints()
