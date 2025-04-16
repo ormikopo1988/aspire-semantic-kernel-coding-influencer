@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatApp.AppHost", "ChatApp.AppHost\ChatApp.AppHost.csproj", "{2E8C655A-0094-45A8-A21E-62CE8D763A12}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatApp.ServiceDefaults", "ChatApp.ServiceDefaults\ChatApp.ServiceDefaults.csproj", "{40B95131-B4D5-4A17-8AF9-8C23EBB6EFFB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatApp.WebApi", "ChatApp.WebApi\ChatApp.WebApi.csproj", "{0E7A4CA7-2BB1-434D-A34C-1B772055BF81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApp.Plugins", "ChatApp.Plugins\ChatApp.Plugins.csproj", "{0D49F3F8-7976-441E-9339-D56AFE3B8C6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApp.Contracts", "ChatApp.Contracts\ChatApp.Contracts.csproj", "{88F7BCB6-0B2F-4C5C-ABA5-D94B6D9B0AC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatApp.KernelMemory", "ChatApp.KernelMemory\ChatApp.KernelMemory.csproj", "{4FA76307-0CB1-F60E-7A32-3EC35FEAECFB}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "ChatApp.Client", "ChatApp.Client\ChatApp.Client.esproj", "{6B040F51-C4B3-E41D-1E04-3D02E8BF025A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2E8C655A-0094-45A8-A21E-62CE8D763A12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E8C655A-0094-45A8-A21E-62CE8D763A12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E8C655A-0094-45A8-A21E-62CE8D763A12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E8C655A-0094-45A8-A21E-62CE8D763A12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40B95131-B4D5-4A17-8AF9-8C23EBB6EFFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40B95131-B4D5-4A17-8AF9-8C23EBB6EFFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40B95131-B4D5-4A17-8AF9-8C23EBB6EFFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40B95131-B4D5-4A17-8AF9-8C23EBB6EFFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E7A4CA7-2BB1-434D-A34C-1B772055BF81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E7A4CA7-2BB1-434D-A34C-1B772055BF81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E7A4CA7-2BB1-434D-A34C-1B772055BF81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E7A4CA7-2BB1-434D-A34C-1B772055BF81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D49F3F8-7976-441E-9339-D56AFE3B8C6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D49F3F8-7976-441E-9339-D56AFE3B8C6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D49F3F8-7976-441E-9339-D56AFE3B8C6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D49F3F8-7976-441E-9339-D56AFE3B8C6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88F7BCB6-0B2F-4C5C-ABA5-D94B6D9B0AC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88F7BCB6-0B2F-4C5C-ABA5-D94B6D9B0AC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88F7BCB6-0B2F-4C5C-ABA5-D94B6D9B0AC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88F7BCB6-0B2F-4C5C-ABA5-D94B6D9B0AC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FA76307-0CB1-F60E-7A32-3EC35FEAECFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FA76307-0CB1-F60E-7A32-3EC35FEAECFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FA76307-0CB1-F60E-7A32-3EC35FEAECFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FA76307-0CB1-F60E-7A32-3EC35FEAECFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B040F51-C4B3-E41D-1E04-3D02E8BF025A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B040F51-C4B3-E41D-1E04-3D02E8BF025A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B040F51-C4B3-E41D-1E04-3D02E8BF025A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{6B040F51-C4B3-E41D-1E04-3D02E8BF025A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B040F51-C4B3-E41D-1E04-3D02E8BF025A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B040F51-C4B3-E41D-1E04-3D02E8BF025A}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7C732D01-B834-4772-9C13-0EA9EA0BD9DB}
+	EndGlobalSection
+EndGlobal
