@@ -9,6 +9,8 @@ param aiProjectName string = take('aiProject-${uniqueString(resourceGroup().id)}
 
 param vectorSearchName string = take('vectorsearch-${uniqueString(resourceGroup().id)}', 60)
 
+param applicationInsightsName string = take('chatappapplicationinsights-${uniqueString(resourceGroup().id)}', 260)
+
 var keyVaultName = take('keyVault-${uniqueString(resourceGroup().id)}', 64)
 
 resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' = {
@@ -181,19 +183,6 @@ resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2021-12-01-previ
   })
 }
 
-resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
-  name: take('appins-${uniqueString(resourceGroup().id)}', 24)
-  location: location
-  tags: {
-    'aspire-resource-name': 'applicationInsights'
-  }
-  kind: 'web'
-  properties: {
-    Application_Type: 'web'
-    WorkspaceResourceId: logAnalytics.id
-  }
-}
-
 resource openAi 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
   name: take('openAi-${uniqueString(resourceGroup().id)}', 64)
   location: location
@@ -265,6 +254,10 @@ resource text_embedding_3_large 'Microsoft.CognitiveServices/accounts/deployment
 
 resource vectorSearch 'Microsoft.Search/searchServices@2023-11-01' existing = {
   name: vectorSearchName
+}
+
+resource applicationInsights 'Microsoft.Insights/components@2020-02-02' existing = {
+  name: applicationInsightsName
 }
 
 resource aiHub 'Microsoft.MachineLearningServices/workspaces@2024-10-01' = {
