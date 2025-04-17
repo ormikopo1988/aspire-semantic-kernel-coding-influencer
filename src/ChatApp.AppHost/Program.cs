@@ -4,6 +4,11 @@ using Azure.Provisioning.Search;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
+// Automatically provision an Application Insights resource
+var insights = builder.ExecutionContext.IsPublishMode
+    ? builder.AddAzureApplicationInsights("chatappapplicationinsights")
+    : builder.AddConnectionString("chatappapplicationinsights", "APPLICATIONINSIGHTS_CONNECTION_STRING");
+
 var azureDeployment = Environment
     .GetEnvironmentVariable("AzureDeployment") 
         ?? "chatdeploymentnew";
@@ -52,6 +57,7 @@ var agentModelDeployment = builder
     .WithParameter(AzureBicepResource.KnownParameters.PrincipalType);
 
 var backend = builder.AddProject<Projects.ChatApp_WebApi>("backend")
+    .WithReference(insights)
     .WithReference(vectorSearch)
     .WaitFor(vectorSearch)
     .WithEnvironment("AzureDeployment", azureDeployment)
@@ -76,6 +82,7 @@ var frontend = builder.AddNpmApp("frontend", "../ChatApp.Client")
     .PublishAsDockerFile();
 
 builder.AddProject<Projects.ChatApp_KernelMemory>("chatapp-kernelmemory")
+    .WithReference(insights)
     .ExcludeFromManifest();
 
 builder.Build().Run();

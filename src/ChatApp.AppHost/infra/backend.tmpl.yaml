@@ -21,6 +21,8 @@ properties:
       - server: {{ .Env.AZURE_CONTAINER_REGISTRY_ENDPOINT }}
         identity: {{ .Env.AZURE_CONTAINER_REGISTRY_MANAGED_IDENTITY_ID }}
     secrets:
+      - name: applicationinsights-connection-string
+        value: '{{ .Env.CHATAPPAPPLICATIONINSIGHTS_APPINSIGHTSCONNECTIONSTRING }}'
       - name: connectionstrings--openai
         value: '{{ .Env.AOAI_CONNECTIONSTRING }}'
       - name: connectionstrings--vectorsearch
@@ -54,6 +56,8 @@ properties:
             value: in_memory
           - name: VectorStoreCollectionName
             value: default
+          - name: APPLICATIONINSIGHTS_CONNECTION_STRING
+            secretRef: applicationinsights-connection-string
           - name: ConnectionStrings__openAi
             secretRef: connectionstrings--openai
           - name: ConnectionStrings__vectorSearch

@@ -41,6 +41,14 @@ module aoai 'aoai/openAi.module.bicep' = {
     principalType: 'ServicePrincipal'
   }
 }
+module chatappapplicationinsights 'chatappapplicationinsights/chatappapplicationinsights.module.bicep' = {
+  name: 'chatappapplicationinsights'
+  scope: rg
+  params: {
+    location: location
+    logAnalyticsWorkspaceId: resources.outputs.AZURE_LOG_ANALYTICS_WORKSPACE_ID
+  }
+}
 module vectorSearch 'vectorSearch/vectorSearch.module.bicep' = {
   name: 'vectorSearch'
   scope: rg
@@ -71,4 +79,5 @@ output AZURE_CONTAINER_APPS_ENVIRONMENT_DEFAULT_DOMAIN string = resources.output
 output AOAI_AIPROJECTCONNECTIONSTRING string = aoai.outputs.aiProjectConnectionString
 output AOAI_CONNECTIONSTRING string = aoai.outputs.connectionString
 output AOAI_MODELDEPLOYMENT string = aoai.outputs.modelDeployment
+output CHATAPPAPPLICATIONINSIGHTS_APPINSIGHTSCONNECTIONSTRING string = chatappapplicationinsights.outputs.appInsightsConnectionString
 output VECTORSEARCH_CONNECTIONSTRING string = vectorSearch.outputs.connectionString
