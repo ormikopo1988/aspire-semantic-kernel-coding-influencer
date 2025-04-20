@@ -10,15 +10,25 @@ using System.Net.Http.Json;
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
-namespace ChatApp.Plugins.Plugins.GitHubPlugin
+namespace ChatApp.Infrastructure.Plugins.GitHubPlugin
 {
     public class GitHubPlugin 
-    {   
+    {
+        private readonly ILogger<GitHubPlugin> _logger;
+        
+        public GitHubPlugin(ILogger<GitHubPlugin> logger)
+        {
+            _logger = logger;
+        }
+
         [KernelFunction, Description("Calls the GitHub API to fetch information available for a specified username. This method should be used only if the request contains a GitHub username inside quotes.")]
         public async Task<GitHubUserDetails?> FetchUserInformationFromGithub(
             [Description("The GitHub username")] string username)
         {
+            _logger.LogTrace($"Fetch information from GitHub for user: {username}");
+
             var httpClient = new HttpClient
             {
                 BaseAddress = new Uri("https://api.github.com")

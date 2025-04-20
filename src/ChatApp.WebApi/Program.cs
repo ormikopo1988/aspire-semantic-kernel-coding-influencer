@@ -1,6 +1,6 @@
 using Azure.Identity;
 using ChatApp.Contracts.Models;
-using ChatApp.Plugins.Plugins.GitHubPlugin;
+using ChatApp.Infrastructure.Plugins.GitHubPlugin;
 using ChatApp.WebApi.Agents;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
