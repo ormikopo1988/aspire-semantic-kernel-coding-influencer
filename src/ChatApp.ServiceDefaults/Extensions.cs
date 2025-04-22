@@ -113,30 +113,30 @@ public static class Extensions
         AppContext.SetSwitch("Microsoft.SemanticKernel.Experimental.GenAI.EnableOTelDiagnosticsSensitive", true);
 
         // Enables experimental Azure SDK observability
-        AppContext.SetSwitch("Azure.Experimental.EnableActivitySource", true);
+        //AppContext.SetSwitch("Azure.Experimental.EnableActivitySource", true);
 
         // By default instrumentation captures chat messages without content
         // since content can be very verbose and have sensitive information.
         // The following AppContext switch enables content recording.
-        AppContext.SetSwitch("Azure.Experimental.TraceGenAIMessageContent", true);
+        //AppContext.SetSwitch("Azure.Experimental.TraceGenAIMessageContent", true);
 
         var traceProvider = Sdk.CreateTracerProviderBuilder()
             .SetResourceBuilder(resourceBuilder)
-            .AddHttpClientInstrumentation()
+            //.AddHttpClientInstrumentation()
             .AddSource("Microsoft.SemanticKernel*")
-            .AddSource("Azure.AI.Inference.*")
-            .ConfigureResource(r => r.AddService("chatapp"))
-            .AddConsoleExporter()
+            //.AddSource("Azure.AI.Inference.*")
+            //.ConfigureResource(r => r.AddService("chatapp"))
+            //.AddConsoleExporter()
             .AddOtlpExporter()
             .Build();
 
         var meterProvider = Sdk.CreateMeterProviderBuilder()
             .SetResourceBuilder(resourceBuilder)
-            .AddHttpClientInstrumentation()
+            //.AddHttpClientInstrumentation()
             .AddMeter("Microsoft.SemanticKernel*")
-            .AddMeter("Azure.AI.Inference.*")
-            .ConfigureResource(r => r.AddService("chatapp"))
-            .AddConsoleExporter()
+            //.AddMeter("Azure.AI.Inference.*")
+            //.ConfigureResource(r => r.AddService("chatapp"))
+            //.AddConsoleExporter()
             .AddOtlpExporter()
             .Build();
 
