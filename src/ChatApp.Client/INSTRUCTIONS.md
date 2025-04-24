@@ -8,8 +8,8 @@ To ensure that it is grounded on real public and also your internal data, please
 > Current limitation: Needs to be strict this format.
 
 ``` yaml
-researchContext: Can you find information about user 'ormikopo1988' from GitHub and try to understand the coding language preferences he has?  
-internalKnowledgeContext: Return best coding and code review practices based on the language of the user?  
+researchContext: Can you find information about user 'ormikopo1988' from GitHub and try to understand the coding language preferences he has?
+internalKnowledgeContext: Can you find best coding and code review practices based on the language of the user?
 writingAsk: Based on the research and internal knowledge information gathered, write an engaging article around best coding practices to follow for users with similar coding language preferences.
 ```
 
