@@ -1,23 +1,16 @@
 using Azure.AI.Projects;
 using Azure.Identity;
 using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.Agents;
-using Microsoft.SemanticKernel.Agents.AzureAI;
-using Microsoft.SemanticKernel.Connectors.AzureOpenAI;
 using System.Threading.Tasks;
-using System.IO;
 using Microsoft.Extensions.Configuration;
+using ChatApp.Infrastructure.Factories;
+using ChatApp.Infrastructure.Models;
 
 namespace ChatApp.WebApi.Agents;
 
 public class CreativeWriterApp
 {
-    public const string ResearcherAgentName = "Researcher";
-    public const string InternalKnowledgeAgentName = "InternalKnowledge";
-    public const string WriterAgentName = "Writer";
-    public const string EditorAgentName = "Editor";
-
-    private readonly AIProjectClient _aIProjectClient;
+    private readonly AIProjectClient _aiProjectClient;
     private readonly AgentsClient _agentsClient;
     private readonly Kernel _defaultKernel;
     private readonly IConfiguration _configuration;
@@ -26,7 +19,7 @@ public class CreativeWriterApp
     {
         _defaultKernel = defaultKernel;
         _configuration = configuration;
-        _aIProjectClient = new AIProjectClient(
+        _aiProjectClient = new AIProjectClient(
             configuration.GetValue<string>("AIProjectConnectionString")!, 
             new DefaultAzureCredential(
                 new DefaultAzureCredentialOptions 
@@ -34,41 +27,24 @@ public class CreativeWriterApp
                     ExcludeVisualStudioCredential = true 
                 }), 
             new AIProjectClientOptions());
-        _agentsClient = _aIProjectClient.GetAgentsClient();
+        _agentsClient = _aiProjectClient.GetAgentsClient();
     }
 
     internal async Task<CreativeWriterSession> CreateSessionAsync()
     {
-        var researcherTemplate = ReadFileForPromptTemplateConfig(
-            "./Agents/Prompts/researcher.yaml");
-        
+        var modelDeployment = _configuration.GetValue<string>("ModelDeployment")!;
+
         // For the ease of the demo, we are creating an Agent in Azure AI Agent Service 
-        // for every session and deleting it after the session finished.
+        // for every session and deleting it after the session finishes.
         // For production, you may want to create an agent once and reuse them.
-        var researcherAgentDefinition = await _agentsClient
-            .CreateAgentAsync(
-                model: _configuration.GetValue<string>("ModelDeployment")!,
-                name: researcherTemplate.Name,
-                description: researcherTemplate.Description,
-                instructions: researcherTemplate.Template
-            );
+        var researcherAgent = await CustomAgentFactory
+            .CreateAzureAIAgentAsync(
+                _agentsClient, 
+                _defaultKernel, 
+                AgentType.Researcher,
+                modelDeployment);
 
-        AzureAIAgent researcherAgent = new(
-            researcherAgentDefinition,
-            _agentsClient,
-            templateFactory: new KernelPromptTemplateFactory(),
-            templateFormat: PromptTemplateConfig.SemanticKernelTemplateFormat)  
-        {
-            Name = ResearcherAgentName,
-            Kernel = _defaultKernel,
-            Arguments = CreateFunctionChoiceAutoBehavior(),
-            LoggerFactory = _defaultKernel.LoggerFactory,
-        };
-
-        var internalKnowledgeTemplate = ReadFileForPromptTemplateConfig(
-            "./Agents/Prompts/internalKnowledge.yaml");
-
-        var connectionsClient = _aIProjectClient.GetConnectionsClient();
+        var connectionsClient = _aiProjectClient.GetConnectionsClient();
         ListConnectionsResponse searchConnections = await connectionsClient
             .GetConnectionsAsync(ConnectionType.AzureAISearch);
         var searchConnection = searchConnections.Value[0];
@@ -81,58 +57,33 @@ public class CreativeWriterApp
             QueryType = AzureAISearchQueryType.Simple
         };
 
-        // For the ease of the demo, we are creating an Agent in Azure AI Agent Service 
-        // for every session and deleting it after the session finished.
-        // For production, you may want to create an agent once and reuse them.
-        var internalKnowledgeAgentDefinition = await _agentsClient
-            .CreateAgentAsync(
-                model: _configuration.GetValue<string>("ModelDeployment")!,
-                name: internalKnowledgeTemplate.Name,
-                description: internalKnowledgeTemplate.Description,
-                instructions: internalKnowledgeTemplate.Template,
+        var internalKnowledgeAgent = await CustomAgentFactory
+            .CreateAzureAIAgentAsync(
+                _agentsClient,
+                _defaultKernel,
+                AgentType.InternalKnowledge,
+                modelDeployment,
                 tools: [new AzureAISearchToolDefinition()],
                 toolResources: new()
                 {
                     AzureAISearch = new()
                     {
-                        IndexList = 
+                        IndexList =
                         {
                             aiSearchIndexResource
                         }
                     }
                 });
 
-        AzureAIAgent internalKnowledgeAgent = new(
-            internalKnowledgeAgentDefinition,
-            _agentsClient,
-            templateFactory: new KernelPromptTemplateFactory(),
-            templateFormat: PromptTemplateConfig.SemanticKernelTemplateFormat)
-        {
-            Name = InternalKnowledgeAgentName,
-            Kernel = _defaultKernel,
-            Arguments = CreateFunctionChoiceAutoBehavior(),
-            LoggerFactory = _defaultKernel.LoggerFactory,
-        };
+        var writerAgent = CustomAgentFactory
+            .CreateChatCompletionAgent(
+                _defaultKernel,
+                AgentType.Writer);
 
-        ChatCompletionAgent writerAgent = new(
-            ReadFileForPromptTemplateConfig(
-                "./Agents/Prompts/writer.yaml"), 
-            templateFactory: new KernelPromptTemplateFactory())
-        {
-            Name = WriterAgentName,
-            Kernel = _defaultKernel,
-            LoggerFactory = _defaultKernel.LoggerFactory
-        };
-
-        ChatCompletionAgent editorAgent = new(
-            ReadFileForPromptTemplateConfig(
-                "./Agents/Prompts/editor.yaml"), 
-            templateFactory: new KernelPromptTemplateFactory())
-        {
-            Name = EditorAgentName,
-            Kernel = _defaultKernel,
-            LoggerFactory = _defaultKernel.LoggerFactory
-        };
+        var editorAgent = CustomAgentFactory
+            .CreateChatCompletionAgent(
+                _defaultKernel,
+                AgentType.Editor);
 
         return new CreativeWriterSession(
             _defaultKernel, 
@@ -141,21 +92,5 @@ public class CreativeWriterApp
             internalKnowledgeAgent, 
             writerAgent, 
             editorAgent);
-    }
-
-    private static PromptTemplateConfig ReadFileForPromptTemplateConfig(string fileName)
-    {
-        var yaml = File.ReadAllText(fileName);
-
-        return KernelFunctionYaml.ToPromptTemplateConfig(yaml);
-    }
-
-    private static KernelArguments CreateFunctionChoiceAutoBehavior()
-    {
-        return new KernelArguments(
-            new AzureOpenAIPromptExecutionSettings 
-            { 
-                FunctionChoiceBehavior = FunctionChoiceBehavior.Required() 
-            });
     }
 }

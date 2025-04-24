@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ChatApp.Infrastructure.Plugins.GitHubPlugin
 {
-    public class GitHubPlugin 
+    internal class GitHubPlugin 
     {
         private readonly ILogger<GitHubPlugin> _logger;
         

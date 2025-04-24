@@ -1,6 +1,6 @@
 using Azure.Identity;
 using ChatApp.Contracts.Models;
-using ChatApp.Infrastructure.Plugins.GitHubPlugin;
+using ChatApp.Infrastructure.Logging;
 using ChatApp.WebApi.Agents;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,8 +38,7 @@ builder.Services
     .AddAzureOpenAITextEmbeddingGeneration(builder.Configuration["EmbeddingModelDeployment"]!)
     .ConfigureOpenTelemetry(builder.Configuration);
 
-builder.Services.AddSingleton(sp => 
-    KernelPluginFactory.CreateFromType<GitHubPlugin>(serviceProvider: sp));
+builder.Services.AddSingleton<IAutoFunctionInvocationFilter, AutoFunctionInvocationLoggingFilter>();
 
 builder.Services.AddTransient<CreativeWriterApp>();
 
