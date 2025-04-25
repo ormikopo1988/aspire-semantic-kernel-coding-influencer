@@ -4,6 +4,7 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.Agents.AzureAI;
 using Microsoft.SemanticKernel.Connectors.AzureOpenAI;
+using Microsoft.SemanticKernel.PromptTemplates.Liquid;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -20,7 +21,7 @@ namespace ChatApp.Infrastructure.Factories
 
             return new ChatCompletionAgent(
                 agentPromptTemplateConfig,
-                new KernelPromptTemplateFactory())
+                new LiquidPromptTemplateFactory())
             {
                 Name = SystemPromptFactory.GetAgentName(agentType),
                 Description = agentPromptTemplateConfig.Description,
@@ -58,8 +59,8 @@ namespace ChatApp.Infrastructure.Factories
             return new AzureAIAgent(
                 agentDefinition,
                 agentsClient,
-                templateFactory: new KernelPromptTemplateFactory(),
-                templateFormat: PromptTemplateConfig.SemanticKernelTemplateFormat)
+                templateFactory: new LiquidPromptTemplateFactory(),
+                templateFormat: "liquid")
                 {
                     Name = SystemPromptFactory.GetAgentName(agentType),
                     Description = agentPromptTemplateConfig.Description,

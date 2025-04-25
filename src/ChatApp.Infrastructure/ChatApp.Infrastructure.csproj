@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <NoWarn>$(NoWarn);CA2007;IDE1006;SKEXP0001;SKEXP0110;SKEXP0050;OPENAI001;SKEXP0010;</NoWarn>
+    <NoWarn>$(NoWarn);CA2007;IDE1006;SKEXP0001;SKEXP0110;SKEXP0050;OPENAI001;SKEXP0010;SKEXP0040;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +11,7 @@
     <PackageReference Include="Microsoft.SemanticKernel" Version="1.47.0" />
     <PackageReference Include="Microsoft.SemanticKernel.Agents.AzureAI" Version="1.47.0-preview" />
     <PackageReference Include="Microsoft.SemanticKernel.Agents.Core" Version="1.47.0" />
-    <PackageReference Include="Microsoft.SemanticKernel.Yaml" Version="1.47.0" />
+    <PackageReference Include="Microsoft.SemanticKernel.Prompty" Version="1.47.0-beta" />
   </ItemGroup>
 
 </Project>

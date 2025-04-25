@@ -1,5 +1,6 @@
 ﻿using ChatApp.Infrastructure.Models;
 using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.Prompty;
 using System;
 using System.IO;
 
@@ -28,26 +29,26 @@ namespace ChatApp.Infrastructure.Factories
         {
             string? promptFile = agentType switch
             {
-                AgentType.Researcher => "researcher.yaml",
-                AgentType.InternalKnowledge => "internalKnowledge.yaml",
-                AgentType.Writer => "writer.yaml",
-                AgentType.Editor => "editor.yaml",
+                AgentType.Researcher => "researcher.prompty",
+                AgentType.InternalKnowledge => "internalKnowledge.prompty",
+                AgentType.Writer => "writer.prompty",
+                AgentType.Editor => "editor.prompty",
                 _ => throw new ArgumentOutOfRangeException(
                     nameof(agentType),
                     agentType,
                     null),
             };
 
-            return ReadFileForPromptTemplateConfig(
+            return ReadPromptyFileForTemplateConfig(
                 $"./Agents/Prompts/{promptFile}");
         }
 
-        private static PromptTemplateConfig 
-            ReadFileForPromptTemplateConfig(string fileName)
+        private static PromptTemplateConfig
+            ReadPromptyFileForTemplateConfig(string fileName)
         {
             var yaml = File.ReadAllText(fileName);
 
-            return KernelFunctionYaml.ToPromptTemplateConfig(yaml);
+            return KernelFunctionPrompty.ToPromptTemplateConfig(yaml);
         }
     }
 }
