@@ -7,8 +7,8 @@
     <UserSecretsId>9fe828de-c029-4bda-9538-5ef13a7bbf06</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Aspire.Azure.AI.OpenAI" Version="9.2.0-preview.1.25209.2" />
-    <PackageReference Include="Aspire.Azure.Search.Documents" Version="9.2.0" />
+    <PackageReference Include="Aspire.Azure.AI.OpenAI" Version="9.2.1-preview.1.25222.1" />
+    <PackageReference Include="Aspire.Azure.Search.Documents" Version="9.2.1" />
     <PackageReference Include="Azure.AI.Projects" Version="1.0.0-beta.8" />
     <PackageReference Include="Microsoft.SemanticKernel.Connectors.AzureAISearch" Version="1.47.0-preview" />
     <PackageReference Include="System.Text.Json" Version="9.0.4" />
