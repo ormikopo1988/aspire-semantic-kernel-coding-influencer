@@ -6,7 +6,7 @@ model:
   api: chat
   configuration:
     type: azure_openai
-    azure_deployment: gpt-4o-mini
+    azure_deployment: chatdeploymentnew
 inputs:
   research_context:
     name: research_context
