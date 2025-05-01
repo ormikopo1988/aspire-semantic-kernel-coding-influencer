@@ -8,10 +8,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Net.Http.Headers" Version="9.0.4" />
-    <PackageReference Include="Microsoft.SemanticKernel" Version="1.47.0" />
-    <PackageReference Include="Microsoft.SemanticKernel.Agents.AzureAI" Version="1.47.0-preview" />
-    <PackageReference Include="Microsoft.SemanticKernel.Agents.Core" Version="1.47.0" />
-    <PackageReference Include="Microsoft.SemanticKernel.Prompty" Version="1.47.0-beta" />
+    <PackageReference Include="Microsoft.SemanticKernel" Version="1.48.0" />
+    <PackageReference Include="Microsoft.SemanticKernel.Agents.AzureAI" Version="1.48.0-preview" />
+    <PackageReference Include="Microsoft.SemanticKernel.Agents.Core" Version="1.48.0" />
+    <PackageReference Include="Microsoft.SemanticKernel.Prompty" Version="1.48.0-beta" />
   </ItemGroup>
 
 </Project>
